@@ -1,6 +1,6 @@
 // John ZHAN - Jules BACART - Lucas RINAUDO
 
-package fr.efrei;
+package fr.efrei.domain;
 
 import java.io.Serializable;
 import java.util.Objects;
