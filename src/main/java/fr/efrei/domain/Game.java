@@ -10,18 +10,21 @@ public class Game implements Serializable {
     private final String id;
     private final String title;
     private final String genre;
+    private final GamePlatform platform;
     private boolean available;
 
     private Game(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.genre = builder.genre;
+        this.platform = builder.platform;
         this.available = builder.available;
     }
 
     public String getId() { return id; }
     public String getTitle() { return title; }
     public String getGenre() { return genre; }
+    public GamePlatform getPlatform() { return platform; }
     public boolean isAvailable() { return available; }
 
     public void setAvailable(boolean available) { this.available = available; }
@@ -30,11 +33,13 @@ public class Game implements Serializable {
         private String id;
         private String title;
         private String genre;
+        private GamePlatform platform;
         private boolean available = true;
 
         public Builder setId(String id) { this.id = id; return this; }
         public Builder setTitle(String title) { this.title = title; return this; }
         public Builder setGenre(String genre) { this.genre = genre; return this; }
+        public Builder setPlatform(GamePlatform platform) { this.platform = platform; return this; }
         public Builder setAvailable(boolean available) { this.available = available; return this; }
 
         public Game build() { return new Game(this); }
@@ -54,9 +59,10 @@ public class Game implements Serializable {
     @Override
     public String toString() {
         return "Game{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", genre='" + genre + '\'' +
+                "id='" + id + '\\' +
+                ", title='" + title + '\\' +
+                ", genre='" + genre + '\\' +
+                ", platform=" + platform +
                 ", available=" + available +
                 '}';
     }

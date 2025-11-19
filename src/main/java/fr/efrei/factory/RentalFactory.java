@@ -4,6 +4,7 @@ package fr.efrei.factory;
 
 import fr.efrei.domain.Customer;
 import fr.efrei.domain.Game;
+import fr.efrei.domain.GamePlatform;
 import fr.efrei.domain.Rental;
 import fr.efrei.util.Helper;
 
@@ -14,6 +15,11 @@ public final class RentalFactory {
 
     public static Rental create(String rentalId, Customer customer, Game game,
                                 LocalDate rentalDate, LocalDate plannedReturnDate) {
+        return create(rentalId, customer, game, null, rentalDate, plannedReturnDate);
+    }
+
+    public static Rental create(String rentalId, Customer customer, Game game, GamePlatform requestedPlatform,
+                                LocalDate rentalDate, LocalDate plannedReturnDate) {
         String finalId = (rentalId == null || rentalId.isBlank()) ? Helper.IdGenerator.uuid() : rentalId;
 
         if (customer == null) throw new IllegalArgumentException("customer is required");
@@ -21,6 +27,13 @@ public final class RentalFactory {
         if (rentalDate == null) rentalDate = LocalDate.now();
         if (!game.isAvailable())
             throw new IllegalStateException("Game '" + game.getTitle() + "' is not available");
+
+        if (requestedPlatform != null) {
+            if (game.getPlatform() == null)
+                throw new IllegalArgumentException("Game has no platform information");
+            if (!game.getPlatform().isCompatibleWith(requestedPlatform))
+                throw new IllegalArgumentException("Incompatible platform: game is " + game.getPlatform() + " but requested " + requestedPlatform);
+        }
 
         // Business rule: when renting, the game becomes unavailable
         game.setAvailable(false);

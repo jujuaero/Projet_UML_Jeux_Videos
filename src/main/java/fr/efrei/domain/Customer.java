@@ -5,7 +5,6 @@ package fr.efrei.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-
 public class Customer implements Serializable {
     private final String id;
     private final String name;
