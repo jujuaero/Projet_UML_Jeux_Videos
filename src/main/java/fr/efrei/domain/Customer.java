@@ -1,4 +1,3 @@
-// John ZHAN - Jules BACART - Lucas RINAUDO
 
 package fr.efrei.domain;
 
@@ -9,25 +8,30 @@ public class Customer implements Serializable {
     private final String id;
     private final String name;
     private final String contactNumber;
+    private final String password;
 
     private Customer(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.contactNumber = builder.contactNumber;
+        this.password = builder.password;
     }
 
     public String getId() { return id; }
     public String getName() { return name; }
     public String getContactNumber() { return contactNumber; }
+    public String getPassword() { return password; }
 
     public static class Builder {
         private String id;
         private String name;
         private String contactNumber;
+        private String password;
 
         public Builder setId(String id) { this.id = id; return this; }
         public Builder setName(String name) { this.name = name; return this; }
         public Builder setContactNumber(String contactNumber) { this.contactNumber = contactNumber; return this; }
+        public Builder setPassword(String password) { this.password = password; return this; }
 
         public Customer build() { return new Customer(this); }
     }

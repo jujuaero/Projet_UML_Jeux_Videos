@@ -1,5 +1,3 @@
-// John ZHAN - Jules BACART - Lucas RINAUDO
-
 package fr.efrei.domain;
 
 
