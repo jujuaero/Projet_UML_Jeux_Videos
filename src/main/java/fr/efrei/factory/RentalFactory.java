@@ -42,8 +42,9 @@ public final class RentalFactory {
                 .setRentalId(finalId)
                 .setCustomer(customer)
                 .setGame(game)
+                .setPlatform(requestedPlatform != null ? requestedPlatform : game.getPlatform())
                 .setRentalDate(rentalDate)
-                .setReturnDate(plannedReturnDate) // can be null
+                .setReturnDate(plannedReturnDate)
                 .setReturned(false)
                 .build();
     }
