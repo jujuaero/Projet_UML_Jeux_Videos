@@ -25,6 +25,35 @@ public final class GameFactory {
                 .build();
     }
 
+    public static Game create(String id, String title, String genre, GamePlatform platform, boolean available, fr.efrei.domain.GameType type) {
+        String finalId = (id == null || id.isBlank()) ? fr.efrei.util.Helper.IdGenerator.uuid() : id;
+        validateNotBlank(title, "title");
+        validateNotBlank(genre, "genre");
+        return new Game.Builder()
+                .setId(finalId)
+                .setTitle(title.trim())
+                .setGenre(genre.trim())
+                .setPlatform(platform)
+                .setAvailable(available)
+                .setType(type)
+                .build();
+    }
+
+    public static Game create(String id, String title, String genre, GamePlatform platform, boolean available, fr.efrei.domain.GameType type, double price) {
+        String finalId = (id == null || id.isBlank()) ? fr.efrei.util.Helper.IdGenerator.uuid() : id;
+        validateNotBlank(title, "title");
+        validateNotBlank(genre, "genre");
+        return new Game.Builder()
+                .setId(finalId)
+                .setTitle(title.trim())
+                .setGenre(genre.trim())
+                .setPlatform(platform)
+                .setAvailable(available)
+                .setType(type)
+                .setPrice(price)
+                .build();
+    }
+
     private static void validateNotBlank(String v, String field) {
         if (v == null || v.isBlank())
             throw new IllegalArgumentException("Invalid " + field + ": required");

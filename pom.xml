@@ -34,7 +34,7 @@
 
     <build>
         <plugins>
-            <!-- Compiler plugin pour activer --enable-preview -->
+            <!-- Compiler plugin pour activer -enable-preview -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

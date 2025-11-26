@@ -77,21 +77,53 @@ public class GameRentalApp {
                 }
             }
 
-            // Menu simple qui boucle tant que l'utilisateur est connecté
             while (true) {
-                System.out.println("Que voulez-vous faire ?\n1) Louer\n2) Rendre\n3) Se déconnecter\n4) Quitter");
-                String choice = Helper.read("Choix (1-4)");
+                System.out.println("Que voulez-vous faire ?\n1) Louer\n2) Rendre\n3) Acheter\n4) Se déconnecter\n5) Quitter");
+                String choice = Helper.read("Choix (1-5)");
                 if (!Helper.isNumber(choice)) { Helper.error("Choix invalide"); continue; }
                 int ch = Integer.parseInt(choice);
 
-                if (ch == 4) {
+                if (ch == 5) {
                     System.out.println("Au revoir.");
-                    return; // quitte l'application
+                    return;
+                }
+
+                if (ch == 4) {
+                    System.out.println("Déconnexion...");
+                    break;
                 }
 
                 if (ch == 3) {
-                    System.out.println("Déconnexion...");
-                    break; // retourne à l'accueil pour un autre utilisateur
+                    System.out.println("Choisissez la plateforme :\n1) Xbox Series X\n2) PlayStation 5\n3) PC Windows");
+                    String p = Helper.read("Votre choix (1-3)");
+                    GamePlatform requestedPlatform = GamePlatform.PC_WINDOWS;
+                    if ("1".equals(p)) requestedPlatform = GamePlatform.XBOX_SERIES_X;
+                    else if ("2".equals(p)) requestedPlatform = GamePlatform.PS5;
+
+                    List<Game> available = gameRepo.findAvailableForSaleByPlatform(requestedPlatform);
+
+                    if (available.isEmpty()) {
+                        Helper.error("Aucun jeu à vendre pour cette plateforme.");
+                        continue;
+                    }
+
+                    System.out.println("Jeux à vendre :");
+                    for (int i = 0; i < available.size(); i++) {
+                        Game gg = available.get(i);
+                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Prix : " + String.format("%.2f €", gg.getPrice()));
+                    }
+                    String sel = Helper.read("Numéro du jeu à acheter");
+                    if (!Helper.isNumber(sel)) { Helper.error("Sélection invalide"); continue; }
+                    int idx = Integer.parseInt(sel) - 1;
+                    if (idx < 0 || idx >= available.size()) { Helper.error("Index hors limites"); continue; }
+                    Game chosen = available.get(idx);
+
+                    if (gameRepo.updateAvailability(chosen.getId(), false)) {
+                        System.out.println("Achat OK: " + chosen.getTitle());
+                    } else {
+                        Helper.error("Erreur lors de l'achat du jeu.");
+                    }
+                    continue;
                 }
 
                 if (ch == 2) {
@@ -138,7 +170,7 @@ public class GameRentalApp {
                     System.out.println("Jeux disponibles :");
                     for (int i = 0; i < available.size(); i++) {
                         Game gg = available.get(i);
-                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform());
+                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Prix : " + String.format("%.2f €", gg.getPrice()));
                     }
                     String sel = Helper.read("Numéro du jeu à louer");
                     if (!Helper.isNumber(sel)) { Helper.error("Sélection invalide"); continue; }

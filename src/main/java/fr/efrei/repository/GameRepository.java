@@ -16,9 +16,9 @@ public class GameRepository {
     }
 
     public Game save(Game game) {
-        String sql = "INSERT INTO games (id, title, genre, platform, is_available) VALUES (?, ?, ?, ?, ?) " +
+        String sql = "INSERT INTO games (id, title, genre, platform, is_available, type, price) VALUES (?, ?, ?, ?, ?, ?, ?) " +
                      "ON DUPLICATE KEY UPDATE title = VALUES(title), genre = VALUES(genre), " +
-                     "platform = VALUES(platform), is_available = VALUES(is_available)";
+                     "platform = VALUES(platform), is_available = VALUES(is_available), type = VALUES(type), price = VALUES(price)";
 
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, game.getId());
@@ -26,6 +26,8 @@ public class GameRepository {
             stmt.setString(3, game.getGenre());
             stmt.setString(4, game.getPlatform().name());
             stmt.setBoolean(5, game.isAvailable());
+            stmt.setString(6, game.getType().name());
+            stmt.setDouble(7, game.getPrice());
             stmt.executeUpdate();
             return game;
         } catch (SQLException e) {
@@ -47,9 +49,11 @@ public class GameRepository {
                     rs.getString("id"),
                     rs.getString("title"),
                     rs.getString("genre"),
-                    GamePlatform.valueOf(rs.getString("platform"))
+                    GamePlatform.valueOf(rs.getString("platform")),
+                    rs.getBoolean("is_available"),
+                    fr.efrei.domain.GameType.valueOf(rs.getString("type")),
+                    rs.getDouble("price")
                 );
-                game.setAvailable(rs.getBoolean("is_available"));
                 return game;
             }
         } catch (SQLException e) {
@@ -71,9 +75,11 @@ public class GameRepository {
                     rs.getString("id"),
                     rs.getString("title"),
                     rs.getString("genre"),
-                    GamePlatform.valueOf(rs.getString("platform"))
+                    GamePlatform.valueOf(rs.getString("platform")),
+                    rs.getBoolean("is_available"),
+                    fr.efrei.domain.GameType.valueOf(rs.getString("type")),
+                    rs.getDouble("price")
                 );
-                game.setAvailable(rs.getBoolean("is_available"));
                 games.add(game);
             }
         } catch (SQLException e) {
@@ -97,14 +103,41 @@ public class GameRepository {
                         rs.getString("id"),
                         rs.getString("title"),
                         rs.getString("genre"),
-                        gamePlatform
+                        gamePlatform,
+                        rs.getBoolean("is_available"),
+                        fr.efrei.domain.GameType.valueOf(rs.getString("type")),
+                        rs.getDouble("price")
                     );
-                    game.setAvailable(rs.getBoolean("is_available"));
                     games.add(game);
                 }
             }
         } catch (SQLException e) {
             System.err.println("Erreur lors de la récupération des jeux : " + e.getMessage());
+        }
+        return games;
+    }
+
+    public List<Game> findAvailableForSaleByPlatform(GamePlatform platform) {
+        String sql = "SELECT * FROM games WHERE platform = ? AND is_available = TRUE AND type = 'SALE'";
+        List<Game> games = new ArrayList<>();
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setString(1, platform.name());
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Game game = GameFactory.create(
+                    rs.getString("id"),
+                    rs.getString("title"),
+                    rs.getString("genre"),
+                    GamePlatform.valueOf(rs.getString("platform")),
+                    rs.getBoolean("is_available"),
+                    fr.efrei.domain.GameType.valueOf(rs.getString("type")),
+                    rs.getDouble("price")
+                );
+                games.add(game);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur lors de la récupération des jeux à vendre : " + e.getMessage());
+            e.printStackTrace();
         }
         return games;
     }
@@ -136,4 +169,3 @@ public class GameRepository {
         }
     }
 }
-
