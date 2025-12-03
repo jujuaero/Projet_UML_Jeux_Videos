@@ -36,7 +36,7 @@ public class RentalRepository {
             stmt.executeUpdate();
             return rental;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la sauvegarde de la location : " + e.getMessage());
+            System.err.println("Error while saving rental: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -67,7 +67,7 @@ public class RentalRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche de la location : " + e.getMessage());
+            System.err.println("Error while searching for rental: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -98,7 +98,7 @@ public class RentalRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des locations : " + e.getMessage());
+            System.err.println("Error while retrieving rentals: " + e.getMessage());
             e.printStackTrace();
         }
         return rentals;
@@ -130,7 +130,7 @@ public class RentalRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des locations actives : " + e.getMessage());
+            System.err.println("Error while retrieving active rentals: " + e.getMessage());
             e.printStackTrace();
         }
         return rentals;
@@ -143,7 +143,7 @@ public class RentalRepository {
             stmt.setString(1, rentalId);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors du retour de la location : " + e.getMessage());
+            System.err.println("Error while returning rental: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -156,10 +156,53 @@ public class RentalRepository {
             stmt.setString(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la suppression de la location : " + e.getMessage());
+            System.err.println("Error while deleting rental: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
+    }
+
+    public double calculateTotalRevenue() {
+        String sql = "SELECT SUM(g.price) as total FROM rentals r " +
+                     "JOIN games g ON r.game_id = g.id WHERE r.is_returned = TRUE";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while calculating revenue: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0.0;
+    }
+
+    public int getTotalRentalsCount() {
+        String sql = "SELECT COUNT(*) as count FROM rentals";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while counting rentals: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public int getActiveRentalsCount() {
+        String sql = "SELECT COUNT(*) as count FROM rentals WHERE is_returned = FALSE";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("count");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while counting active rentals: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return 0;
     }
 }
 

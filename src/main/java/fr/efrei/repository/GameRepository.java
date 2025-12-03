@@ -31,7 +31,7 @@ public class GameRepository {
             stmt.executeUpdate();
             return game;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la sauvegarde du jeu : " + e.getMessage());
+            System.err.println("Error while saving game: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -57,7 +57,7 @@ public class GameRepository {
                 return game;
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche du jeu : " + e.getMessage());
+            System.err.println("Error while searching for game: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -83,7 +83,7 @@ public class GameRepository {
                 games.add(game);
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des jeux : " + e.getMessage());
+            System.err.println("Error while retrieving games: " + e.getMessage());
             e.printStackTrace();
         }
         return games;
@@ -112,7 +112,7 @@ public class GameRepository {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des jeux : " + e.getMessage());
+            System.err.println("Error while retrieving games: " + e.getMessage());
         }
         return games;
     }
@@ -136,7 +136,7 @@ public class GameRepository {
                 games.add(game);
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des jeux à vendre : " + e.getMessage());
+            System.err.println("Error while retrieving games for sale: " + e.getMessage());
             e.printStackTrace();
         }
         return games;
@@ -149,7 +149,7 @@ public class GameRepository {
             stmt.setString(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la suppression du jeu : " + e.getMessage());
+            System.err.println("Error while deleting game: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -163,9 +163,44 @@ public class GameRepository {
             stmt.setString(2, gameId);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la mise à jour de la disponibilité : " + e.getMessage());
+            System.err.println("Error while updating availability: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
+    }
+
+    public Game addGame(String title, String genre, GamePlatform platform, double price, boolean available, fr.efrei.domain.GameType type) {
+        String sql = "INSERT INTO games (id, title, genre, platform, is_available, type, price) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            String id = java.util.UUID.randomUUID().toString();
+            stmt.setString(1, id);
+            stmt.setString(2, title);
+            stmt.setString(3, genre);
+            stmt.setString(4, platform.name());
+            stmt.setBoolean(5, available);
+            stmt.setString(6, type.name());
+            stmt.setDouble(7, price);
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                return GameFactory.create(id, title, genre, platform, available, type, price);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error while adding game: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean deleteGame(String gameId) {
+        String sql = "DELETE FROM games WHERE id=?";
+        try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
+            stmt.setString(1, gameId);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error while deleting game: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 }

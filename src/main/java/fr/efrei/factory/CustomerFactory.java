@@ -2,6 +2,7 @@ package fr.efrei.factory;
 
 
 import fr.efrei.domain.Customer;
+import fr.efrei.domain.Role;
 import fr.efrei.util.Helper;
 
 public final class CustomerFactory {
@@ -12,6 +13,10 @@ public final class CustomerFactory {
     }
 
     public static Customer create(String id, String name, String contactNumber, String password) {
+        return create(id, name, contactNumber, password, Role.CUSTOMER);
+    }
+
+    public static Customer create(String id, String name, String contactNumber, String password, Role role) {
         String finalId = (id == null || id.isBlank()) ? Helper.IdGenerator.uuid() : id;
         validateNotBlank(name, "name");
         validateNotBlank(contactNumber, "contactNumber");
@@ -21,6 +26,7 @@ public final class CustomerFactory {
                 .setName(name.trim())
                 .setContactNumber(contactNumber.trim())
                 .setPassword(password != null ? password : "")
+                .setRole(role != null ? role : Role.CUSTOMER)
                 .build();
     }
 

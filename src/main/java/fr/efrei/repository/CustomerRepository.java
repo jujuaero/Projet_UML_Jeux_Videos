@@ -15,18 +15,19 @@ public class CustomerRepository {
     }
 
     public Customer save(Customer customer) {
-        String sql = "INSERT INTO customers (id, name, contact_number, password) VALUES (?, ?, ?, ?) " +
-                     "ON DUPLICATE KEY UPDATE name = VALUES(name), contact_number = VALUES(contact_number), password = VALUES(password)";
+        String sql = "INSERT INTO customers (id, name, contact_number, password, role) VALUES (?, ?, ?, ?, ?) " +
+                     "ON DUPLICATE KEY UPDATE name = VALUES(name), contact_number = VALUES(contact_number), password = VALUES(password), role = VALUES(role)";
 
         try (PreparedStatement stmt = getConnection().prepareStatement(sql)) {
             stmt.setString(1, customer.getId());
             stmt.setString(2, customer.getName());
             stmt.setString(3, customer.getContactNumber());
             stmt.setString(4, customer.getPassword());
+            stmt.setString(5, customer.getRole().name());
             stmt.executeUpdate();
             return customer;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la sauvegarde du client : " + e.getMessage());
+            System.err.println("Error while saving customer: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -40,15 +41,18 @@ public class CustomerRepository {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                String roleStr = rs.getString("role");
+                fr.efrei.domain.Role role = (roleStr != null) ? fr.efrei.domain.Role.valueOf(roleStr) : fr.efrei.domain.Role.CUSTOMER;
                 return CustomerFactory.create(
                     rs.getString("id"),
                     rs.getString("name"),
                     rs.getString("contact_number"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    role
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche du client : " + e.getMessage());
+            System.err.println("Error while searching for customer: " + e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -62,36 +66,42 @@ public class CustomerRepository {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                String roleStr = rs.getString("role");
+                fr.efrei.domain.Role role = (roleStr != null) ? fr.efrei.domain.Role.valueOf(roleStr) : fr.efrei.domain.Role.CUSTOMER;
                 return CustomerFactory.create(
                     rs.getString("id"),
                     rs.getString("name"),
                     rs.getString("contact_number"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    role
                 );
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la recherche du client : " + e.getMessage());
+            System.err.println("Error while searching for customer: " + e.getMessage());
         }
         return null;
     }
 
     public List<Customer> findAll() {
         List<Customer> customers = new ArrayList<>();
-        String sql = "SELECT * FROM customers";
+        String sql = "SELECT * FROM customers ORDER BY name";
 
         try (Statement stmt = getConnection().createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
+                String roleStr = rs.getString("role");
+                fr.efrei.domain.Role role = (roleStr != null) ? fr.efrei.domain.Role.valueOf(roleStr) : fr.efrei.domain.Role.CUSTOMER;
                 customers.add(CustomerFactory.create(
                     rs.getString("id"),
                     rs.getString("name"),
                     rs.getString("contact_number"),
-                    rs.getString("password")
+                    rs.getString("password"),
+                    role
                 ));
             }
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la récupération des clients : " + e.getMessage());
+            System.err.println("Error while retrieving customers: " + e.getMessage());
             e.printStackTrace();
         }
         return customers;
@@ -104,7 +114,7 @@ public class CustomerRepository {
             stmt.setString(1, id);
             return stmt.executeUpdate() > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur lors de la suppression du client : " + e.getMessage());
+            System.err.println("Error while deleting customer: " + e.getMessage());
             e.printStackTrace();
             return false;
         }
