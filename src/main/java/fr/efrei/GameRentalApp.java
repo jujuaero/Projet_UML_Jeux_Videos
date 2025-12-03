@@ -28,9 +28,9 @@ public class GameRentalApp {
 
         while (true) {
             Helper.line();
-            String contact = Helper.read("Contact (ou 'exit' pour quitter)");
+            String contact = Helper.read("Contact (or 'exit' to quit)");
             if ("exit".equalsIgnoreCase(contact)) {
-                System.out.println("Au revoir.");
+                System.out.println("Goodbye.");
                 return;
             }
 
@@ -41,61 +41,61 @@ public class GameRentalApp {
                 int attempts = 0;
                 boolean auth = false;
                 while (attempts < 3 && !auth) {
-                    String pass = Helper.read("Mot de passe");
+                    String pass = Helper.read("Password");
                     if (existingCustomer.getPassword().equals(pass)) {
                         auth = true;
                         customer = existingCustomer;
-                        System.out.println("Connexion réussie. Bienvenue " + customer.getName() + " !");
+                        System.out.println("Login successful. Welcome " + customer.getName() + "!");
                     } else {
                         attempts++;
-                        Helper.error("Mot de passe incorrect. Tentative " + attempts + "/3");
+                        Helper.error("Incorrect password. Attempt " + attempts + "/3");
                     }
                 }
                 if (!auth) {
-                    Helper.error("Échec de l'authentification. Retour à l'accueil.");
+                    Helper.error("Authentication failed. Back to home.");
                     continue;
                 }
             } else {
-                String name = Helper.read("Nom");
-                String pass = Helper.read("Choisissez un mot de passe");
+                String name = Helper.read("Name");
+                String pass = Helper.read("Choose a password");
                 if (pass.isBlank()) {
-                    Helper.error("Mot de passe requis.");
+                    Helper.error("Password is required.");
                     continue;
                 }
                 try {
                     customer = CustomerFactory.create(null, name, contact, pass);
                     customer = customerRepo.save(customer);
                     if (customer != null) {
-                        System.out.println("Inscription OK. Bienvenue " + customer.getName());
+                        System.out.println("Registration OK. Welcome " + customer.getName());
                     } else {
-                        Helper.error("Erreur lors de l'inscription.");
+                        Helper.error("Error while registering.");
                         continue;
                     }
                 } catch (IllegalArgumentException e) {
-                    Helper.error("Erreur d'inscription: " + e.getMessage());
+                    Helper.error("Registration error: " + e.getMessage());
                     continue;
                 }
             }
 
             while (true) {
-                System.out.println("Que voulez-vous faire ?\n1) Louer\n2) Rendre\n3) Acheter\n4) Se déconnecter\n5) Quitter");
-                String choice = Helper.read("Choix (1-5)");
-                if (!Helper.isNumber(choice)) { Helper.error("Choix invalide"); continue; }
+                System.out.println("What do you want to do?\n1) Rent\n2) Return\n3) Buy\n4) Log out\n5) Quit");
+                String choice = Helper.read("Choice (1-5)");
+                if (!Helper.isNumber(choice)) { Helper.error("Invalid option"); continue; }
                 int ch = Integer.parseInt(choice);
 
                 if (ch == 5) {
-                    System.out.println("Au revoir.");
+                    System.out.println("Goodbye.");
                     return;
                 }
 
                 if (ch == 4) {
-                    System.out.println("Déconnexion...");
+                    System.out.println("Logging out...");
                     break;
                 }
 
                 if (ch == 3) {
-                    System.out.println("Choisissez la plateforme :\n1) Xbox Series X\n2) PlayStation 5\n3) PC Windows");
-                    String p = Helper.read("Votre choix (1-3)");
+                    System.out.println("Choose a platform:\n1) Xbox Series X\n2) PlayStation 5\n3) Windows PC");
+                    String p = Helper.read("Your choice (1-3)");
                     GamePlatform requestedPlatform = GamePlatform.PC_WINDOWS;
                     if ("1".equals(p)) requestedPlatform = GamePlatform.XBOX_SERIES_X;
                     else if ("2".equals(p)) requestedPlatform = GamePlatform.PS5;
@@ -103,25 +103,25 @@ public class GameRentalApp {
                     List<Game> available = gameRepo.findAvailableForSaleByPlatform(requestedPlatform);
 
                     if (available.isEmpty()) {
-                        Helper.error("Aucun jeu à vendre pour cette plateforme.");
+                        Helper.error("No games for sale on this platform.");
                         continue;
                     }
 
-                    System.out.println("Jeux à vendre :");
+                    System.out.println("Games for sale:");
                     for (int i = 0; i < available.size(); i++) {
                         Game gg = available.get(i);
-                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Prix : " + String.format("%.2f €", gg.getPrice()));
+                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Price: " + String.format("%.2f €", gg.getPrice()));
                     }
-                    String sel = Helper.read("Numéro du jeu à acheter");
-                    if (!Helper.isNumber(sel)) { Helper.error("Sélection invalide"); continue; }
+                    String sel = Helper.read("Number of the game to buy");
+                    if (!Helper.isNumber(sel)) { Helper.error("Invalid selection"); continue; }
                     int idx = Integer.parseInt(sel) - 1;
-                    if (idx < 0 || idx >= available.size()) { Helper.error("Index hors limites"); continue; }
+                    if (idx < 0 || idx >= available.size()) { Helper.error("Index out of range"); continue; }
                     Game chosen = available.get(idx);
 
                     if (gameRepo.updateAvailability(chosen.getId(), false)) {
-                        System.out.println("Achat OK: " + chosen.getTitle());
+                        System.out.println("Purchase OK: " + chosen.getTitle());
                     } else {
-                        Helper.error("Erreur lors de l'achat du jeu.");
+                        Helper.error("Error while buying the game.");
                     }
                     continue;
                 }
@@ -130,32 +130,32 @@ public class GameRentalApp {
                     List<Rental> active = rentalRepo.findActiveByCustomer(customer.getId());
 
                     if (active.isEmpty()) {
-                        Helper.error("Vous n'avez aucune location active.");
+                        Helper.error("You have no active rentals.");
                         continue;
                     }
-                    System.out.println("Vos locations actives :");
+                    System.out.println("Your active rentals:");
                     for (int i = 0; i < active.size(); i++) {
                         Rental r = active.get(i);
-                        System.out.println((i + 1) + ") " + r.getGame().getTitle() + " - retour prévu: " + r.getReturnDate());
+                        System.out.println((i + 1) + ") " + r.getGame().getTitle() + " - due date: " + r.getReturnDate());
                     }
-                    String sel = Helper.read("Numéro à rendre");
-                    if (!Helper.isNumber(sel)) { Helper.error("Sélection invalide"); continue; }
+                    String sel = Helper.read("Number to return");
+                    if (!Helper.isNumber(sel)) { Helper.error("Invalid selection"); continue; }
                     int idx = Integer.parseInt(sel) - 1;
-                    if (idx < 0 || idx >= active.size()) { Helper.error("Index hors limites"); continue; }
+                    if (idx < 0 || idx >= active.size()) { Helper.error("Index out of range"); continue; }
                     Rental toReturn = active.get(idx);
 
                     if (rentalRepo.markAsReturned(toReturn.getRentalId())) {
                         gameRepo.updateAvailability(toReturn.getGame().getId(), true);
-                        System.out.println("Jeu rendu: " + toReturn.getGame().getTitle());
+                        System.out.println("Game returned: " + toReturn.getGame().getTitle());
                     } else {
-                        Helper.error("Erreur lors du retour du jeu.");
+                        Helper.error("Error while returning the game.");
                     }
                     continue;
                 }
 
                 if (ch == 1) {
-                    System.out.println("Choisissez la plateforme :\n1) Xbox Series X\n2) PlayStation 5\n3) PC Windows");
-                    String p = Helper.read("Votre choix (1-3)");
+                    System.out.println("Choose a platform:\n1) Xbox Series X\n2) PlayStation 5\n3) Windows PC");
+                    String p = Helper.read("Your choice (1-3)");
                     GamePlatform requestedPlatform = GamePlatform.PC_WINDOWS;
                     if ("1".equals(p)) requestedPlatform = GamePlatform.XBOX_SERIES_X;
                     else if ("2".equals(p)) requestedPlatform = GamePlatform.PS5;
@@ -163,23 +163,23 @@ public class GameRentalApp {
                     List<Game> available = gameRepo.findAvailableByPlatform(requestedPlatform);
 
                     if (available.isEmpty()) {
-                        Helper.error("Aucun jeu disponible pour cette plateforme.");
+                        Helper.error("No games available for this platform.");
                         continue;
                     }
 
-                    System.out.println("Jeux disponibles :");
+                    System.out.println("Available games:");
                     for (int i = 0; i < available.size(); i++) {
                         Game gg = available.get(i);
-                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Prix : " + String.format("%.2f €", gg.getPrice()));
+                        System.out.println((i + 1) + ") " + gg.getTitle() + " - " + gg.getPlatform() + " | Price: " + String.format("%.2f €", gg.getPrice()));
                     }
-                    String sel = Helper.read("Numéro du jeu à louer");
-                    if (!Helper.isNumber(sel)) { Helper.error("Sélection invalide"); continue; }
+                    String sel = Helper.read("Number of the game to rent");
+                    if (!Helper.isNumber(sel)) { Helper.error("Invalid selection"); continue; }
                     int idx = Integer.parseInt(sel) - 1;
-                    if (idx < 0 || idx >= available.size()) { Helper.error("Index hors limites"); continue; }
+                    if (idx < 0 || idx >= available.size()) { Helper.error("Index out of range"); continue; }
                     Game chosen = available.get(idx);
 
-                    System.out.println("Durée : 1) 1 jour  2) 1 semaine  3) 1 mois");
-                    String dur = Helper.read("Choix (1-3)");
+                    System.out.println("Duration: 1) 1 day  2) 1 week  3) 1 month");
+                    String dur = Helper.read("Choice (1-3)");
                     int days = 1;
                     if ("2".equals(dur)) days = 7;
                     else if ("3".equals(dur)) days = 30;
@@ -193,17 +193,17 @@ public class GameRentalApp {
 
                         if (rental != null) {
                             gameRepo.updateAvailability(chosen.getId(), false);
-                            System.out.println("Location OK: " + rental.getGame().getTitle() + " jusqu'au " + rental.getReturnDate());
+                            System.out.println("Rental OK: " + rental.getGame().getTitle() + " until " + rental.getReturnDate());
                         } else {
-                            Helper.error("Erreur lors de la sauvegarde de la location.");
+                            Helper.error("Error while saving the rental.");
                         }
                     } catch (Exception e) {
-                        Helper.error("Erreur location: " + e.getMessage());
+                        Helper.error("Rental error: " + e.getMessage());
                     }
                     continue;
                 }
 
-                Helper.error("Choix invalide");
+                Helper.error("Invalid option");
             }
         }
     }
