@@ -47,12 +47,26 @@ CREATE TABLE IF NOT EXISTS rentals (
     FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- Table des ventes
+CREATE TABLE IF NOT EXISTS sales (
+    id VARCHAR(36) PRIMARY KEY,
+    customer_id VARCHAR(36) NOT NULL,
+    game_id VARCHAR(36) NOT NULL,
+    sale_date DATE NOT NULL,
+    price DECIMAL(8,2) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE,
+    FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Index pour améliorer les performances
 CREATE INDEX idx_customer_contact ON customers(contact_number);
 CREATE INDEX idx_game_platform ON games(platform, is_available);
 CREATE INDEX idx_rental_customer ON rentals(customer_id);
 CREATE INDEX idx_rental_game ON rentals(game_id);
 CREATE INDEX idx_rental_active ON rentals(is_returned);
+CREATE INDEX idx_sale_customer ON sales(customer_id);
+CREATE INDEX idx_sale_game ON sales(game_id);
 
 -- Insertion de quelques jeux de démonstration
 INSERT INTO games (id, title, genre, platform, is_available, type, price) VALUES

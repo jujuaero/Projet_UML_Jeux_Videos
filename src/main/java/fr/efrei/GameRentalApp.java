@@ -9,6 +9,7 @@ import fr.efrei.factory.RentalFactory;
 import fr.efrei.repository.CustomerRepository;
 import fr.efrei.repository.GameRepository;
 import fr.efrei.repository.RentalRepository;
+import fr.efrei.repository.SaleRepository;
 import fr.efrei.util.DatabaseConnection;
 import fr.efrei.util.Helper;
 
@@ -26,6 +27,7 @@ public class GameRentalApp {
         CustomerRepository customerRepo = new CustomerRepository();
         GameRepository gameRepo = new GameRepository();
         RentalRepository rentalRepo = new RentalRepository();
+        SaleRepository saleRepo = new SaleRepository();
 
         while (true) {
             Helper.line();
@@ -86,7 +88,7 @@ public class GameRentalApp {
 
             // check if admin
             if (customer.isAdmin()) {
-                handleAdminMenu(customer, gameRepo, rentalRepo, customerRepo);
+                handleAdminMenu(customer, gameRepo, rentalRepo, customerRepo, saleRepo);
                 continue;
             }
 
@@ -157,6 +159,12 @@ public class GameRentalApp {
                     Game selectedGame = gamesForSale.get(index);
 
                     if (gameRepo.updateAvailability(selectedGame.getId(), false)) {
+                        // save the sale
+                        String id = java.util.UUID.randomUUID().toString();
+                        fr.efrei.domain.Sale sale = new fr.efrei.domain.Sale(
+                            id, customer, selectedGame, LocalDate.now(), selectedGame.getPrice()
+                        );
+                        saleRepo.save(sale);
                         System.out.println("Great! You bought: " + selectedGame.getTitle());
                     } else {
                         Helper.error("Something went wrong with the purchase...");
@@ -276,7 +284,8 @@ public class GameRentalApp {
     }
 
     private static void handleAdminMenu(Customer admin, GameRepository gameRepo, 
-                                       RentalRepository rentalRepo, CustomerRepository customerRepo) {
+                                       RentalRepository rentalRepo, CustomerRepository customerRepo, 
+                                       SaleRepository saleRepo) {
         while (true) {
             Helper.line();
             System.out.println("=== ADMIN PANEL ===");
@@ -410,16 +419,26 @@ public class GameRentalApp {
 
             if (option == 4) {
                 // show revenue stats
-                double totalRevenue = rentalRepo.calculateTotalRevenue();
-                int total = rentalRepo.getTotalRentalsCount();
-                int active = rentalRepo.getActiveRentalsCount();
-                int returned = total - active;
+                double rentalRevenue = rentalRepo.calculateTotalRevenue();
+                double salesRevenue = saleRepo.calculateTotalSalesRevenue();
+                double totalRevenue = rentalRevenue + salesRevenue;
+
+                int totalRentals = rentalRepo.getTotalRentalsCount();
+                int activeRentals = rentalRepo.getActiveRentalsCount();
+                int returnedRentals = totalRentals - activeRentals;
+
+                int totalSales = saleRepo.getTotalSalesCount();
 
                 System.out.println("\n=== REVENUE STATS ===");
                 System.out.println("Total revenue: " + String.format("%.2f €", totalRevenue));
-                System.out.println("Total rentals: " + total);
-                System.out.println("Currently rented: " + active);
-                System.out.println("Returned: " + returned);
+                System.out.println("  - From rentals: " + String.format("%.2f €", rentalRevenue));
+                System.out.println("  - From sales: " + String.format("%.2f €", salesRevenue));
+                System.out.println("\nRentals:");
+                System.out.println("  Total: " + totalRentals);
+                System.out.println("  Currently rented: " + activeRentals);
+                System.out.println("  Returned: " + returnedRentals);
+                System.out.println("\nSales:");
+                System.out.println("  Total games sold: " + totalSales);
                 continue;
             }
 
