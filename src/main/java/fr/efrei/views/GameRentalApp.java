@@ -260,7 +260,7 @@ public class GameRentalApp {
         double finalPrice = price;
         if (customer.getLoyaltyPoints() >= 100) {
             int pointsToUse = (customer.getLoyaltyPoints() / 100) * 100; // Use multiples of 100
-            double discount = pointsToUse / 10.0; // 100 points = $10 discount
+            double discount = pointsToUse / 100.0; // 100 points = $10 discount
 
             System.out.println("\nYou have " + customer.getLoyaltyPoints() + " loyalty points");
             System.out.println("You can use up to " + pointsToUse + " points for $" + discount + " discount");
@@ -351,7 +351,7 @@ public class GameRentalApp {
         // Ask about loyalty points
         if (customer.getLoyaltyPoints() >= 100) {
             int pointsToUse = (customer.getLoyaltyPoints() / 100) * 100;
-            double discount = pointsToUse / 10.0;
+            double discount = pointsToUse / 100.0;
 
             System.out.println("\nYou have " + customer.getLoyaltyPoints() + " loyalty points");
             System.out.println("You can use up to " + pointsToUse + " points for $" + discount + " discount");
