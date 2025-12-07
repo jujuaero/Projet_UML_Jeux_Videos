@@ -8,32 +8,24 @@ import java.sql.SQLException;
 public class DatabaseConnection {
     private static DatabaseConnection instance;
     private Connection connection;
-    private Dotenv dotenv = null;
 
     private DatabaseConnection() {
         try {
-            String host = "127.0.0.1";
-            String port = "3306";
-            String dbName = "CapeTownGaming";
-            String username = "root";
-            String password = "Password123!";
+            Dotenv dotenv = Dotenv.configure()
+                    .directory("./")
+                    .load();
 
-            try {
-                dotenv = Dotenv.configure()
-                        .directory("./")
-                        .ignoreIfMissing()
-                        .load();
+            String host = dotenv.get("DB_HOST");
+            String port = dotenv.get("DB_PORT");
+            String dbName = dotenv.get("DB_NAME");
+            String username = dotenv.get("DB_USERNAME");
+            String password = dotenv.get("DB_PASSWORD");
 
-                host = dotenv.get("DB_HOST", host);
-                port = dotenv.get("DB_PORT", port);
-                dbName = dotenv.get("DB_NAME", dbName);
-                username = dotenv.get("DB_USERNAME", username);
-                password = dotenv.get("DB_PASSWORD", password);
-            } catch (Exception envError) {
-                System.out.println("Fichier .env non lu, utilisation des valeurs par défaut");
-                System.out.println("  (Raison: " + envError.getMessage() + ")");
+            if (host == null || port == null || dbName == null || username == null || password == null) {
+                throw new IllegalStateException(
+                    "Fichier .env incomplet ! Variables requises: DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD"
+                );
             }
-
 
             String url = "jdbc:mysql://" + host + ":" + port + "/" + dbName
                     + "?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true";
@@ -42,13 +34,15 @@ public class DatabaseConnection {
             this.connection = DriverManager.getConnection(url, username, password);
 
             System.out.println("✓ Connexion à la base de données réussie !");
-        } catch (ClassNotFoundException e) {
-            System.err.println("✗ Driver MySQL non trouvé !");
-            System.err.println("Solution: Exécutez 'mvn clean install' ou rechargez le projet Maven dans votre IDE");
-        } catch (SQLException e) {
-            System.err.println("✗ Erreur de connexion à la base de données !");
-            String dbName = (dotenv != null) ? dotenv.get("DB_NAME", "CapeTownGaming") : "CapeTownGaming";
-            System.err.println("\nCause possible: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("✗ Erreur lors de la connexion à la base de données !");
+            System.err.println("Cause: " + e.getMessage());
+            if (e instanceof ClassNotFoundException) {
+                System.err.println("Solution: Installez le driver MySQL avec 'mvn clean install'");
+            } else if (e.getMessage() != null && e.getMessage().contains(".env")) {
+                System.err.println("Solution: Créez un fichier .env à la racine avec les variables DB_HOST, DB_PORT, DB_NAME, DB_USERNAME, DB_PASSWORD");
+            }
+            throw new RuntimeException("Impossible de se connecter à la base de données", e);
         }
     }
 
@@ -81,4 +75,3 @@ public class DatabaseConnection {
         }
     }
 }
-

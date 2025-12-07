@@ -21,7 +21,6 @@ public class Customer implements Serializable {
     public String getId() { return id; }
     public String getName() { return name; }
     public String getContactNumber() { return contactNumber; }
-    public String getContact() { return contactNumber; }
     public String getPassword() { return password; }
     public int getLoyaltyPoints() { return loyaltyPoints; }
 

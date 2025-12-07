@@ -27,6 +27,7 @@ public class GameRentalApp {
     public static void main(String[] args) {
         System.out.println("=== CapeTown Gaming - Employee System ===");
 
+        //Singleton instances
         DatabaseConnection.getInstance();
 
         EmployeeRepository employeeRepo = EmployeeRepository.getInstance();
@@ -44,7 +45,6 @@ public class GameRentalApp {
 
         System.out.println("\nWelcome, " + employee.getName() + "!");
 
-        // Main employee menu
         while (true) {
             Helper.line();
             System.out.println("\n=== EMPLOYEE MENU ===");
