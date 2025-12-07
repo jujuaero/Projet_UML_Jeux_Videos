@@ -70,11 +70,15 @@ public final class Helper {
     }
 
     /**Pause l'exécution pendant le nombre de millisecondes indiqué.**/
-    public static void pause(long millis) {
+    public static void pauseMillis(long millis) {
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+
+    }
+    public static void pause(int seconds) {
+        pauseMillis(seconds * 1000L);
     }
 }
