@@ -1,0 +1,90 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLClass</id><coordinates><x>639</x><y>473</y><w>189</w><h>279</h></coordinates><panel_attributes>Game
+--
+- id : String
+- title : String
+- genre : String
+- platform : GamePlatform
+- type : GameType
+- available : boolean
+- price : double
+--
++ getId() : String
++ getTitle() : String
++ getGenre() : String
++ getPlatform() : GamePlatform
++ getType() : GameType
++ isAvailable() : boolean
++ getPrice() : double
++ setAvailable(boolean) : void
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>162</x><y>77</y><w>189</w><h>279</h></coordinates><panel_attributes>Customer
+--
+- id : String
+- name : String
+- contactNumber : String
+- password : String
+- role : Role
+- credits : Integer
+--
++ getId() : String
++ getName() : String
++ getContactNumber() : String
++ getContact() : String
++ getPassword() : String
++ getRole() : Role
++ setRole(Role) : void
++ isAdmin() : boolean
++ getCredits() : Integer
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>603</x><y>14</y><w>261</w><h>288</h></coordinates><panel_attributes>Rental
+--
+- rentalId : String
+- customer : Customer
+- game : Game
+- platform : GamePlatform
+- rentalDate : LocalDate
+- returnDate : LocalDate
+- returned : boolean
+--
++ getRentalId() : String
++ getCustomer() : Customer
++ getGame() : Game
++ getPlatform() : GamePlatform
++ getRentalDate() : LocalDate
++ getReturnDate() : LocalDate
++ isReturned() : boolean
++ setReturned(boolean) : void
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>77</y><w>279</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to &gt;</panel_attributes><additional_attributes>10;20;290;20</additional_attributes></element><element><id>Relation</id><coordinates><x>720</x><y>293</y><w>90</w><h>198</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to &gt;</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>180</x><y>482</y><w>171</w><h>216</h></coordinates><panel_attributes>Sale
+--
+- id : String
+- customerId : String
+- gameId : String
+- date : LocalDate
+- price : double
+--
++ getId() : String
++ getCustomerId() : String
++ getGameId() : String
++ getDate() : LocalDate
++ getPrice() : double
++ equals(Object) : boolean
++ hashCode() : int
++ toString() : String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>347</y><w>90</w><h>153</h></coordinates><panel_attributes>lt=-
+m1=0..1
+m2=0..n
+teaches to &gt;</panel_attributes><additional_attributes>10;150;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>545</y><w>315</w><h>45</h></coordinates><panel_attributes>lt=-
+m1=0..n
+m2=0..1
+teaches to &gt;</panel_attributes><additional_attributes>330;20;10;20</additional_attributes></element></diagram>

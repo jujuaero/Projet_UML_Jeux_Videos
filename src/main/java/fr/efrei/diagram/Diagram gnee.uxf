@@ -1,0 +1,13 @@
+<diagram program="umletino" version="15.1"><zoom_level>13</zoom_level><element><id>UMLActor</id><coordinates><x>428</x><y>429</y><w>104</w><h>143</h></coordinates><panel_attributes>Manager</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>779</x><y>182</y><w>169</w><h>65</h></coordinates><panel_attributes>Go on the app
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>493</x><y>221</y><w>338</w><h>260</h></coordinates><panel_attributes>lt=-
+
+</panel_attributes><additional_attributes>10;180;232;10</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>766</x><y>312</y><w>195</w><h>91</h></coordinates><panel_attributes>Search the game(s)
+the client wants
+with its name
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>493</x><y>338</y><w>299</w><h>143</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;90;210;10</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>779</x><y>442</y><w>182</w><h>65</h></coordinates><panel_attributes>Select the game(s)
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>493</x><y>429</y><w>312</w><h>65</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;20;220;30</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>779</x><y>546</y><w>169</w><h>65</h></coordinates><panel_attributes>marks it/them 
+as rented or sold
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>493</x><y>442</y><w>325</w><h>143</h></coordinates><panel_attributes>lt=-
+</panel_attributes><additional_attributes>10;10;230;90</additional_attributes></element></diagram>

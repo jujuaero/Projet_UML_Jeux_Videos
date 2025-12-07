@@ -4,9 +4,12 @@ package fr.efrei.domain;
 public enum GamePlatform {
     XBOX_ONE("Xbox", "One"),
     XBOX_SERIES_X("Xbox", "SeriesX"),
+    XBOX_SERIES_S("Xbox", "SeriesS"),
     PS4("PlayStation", "4"),
     PS5("PlayStation", "5"),
     PC_WINDOWS("PC", "Windows"),
+    PC_MAC("PC", "Mac"),
+    PC_LINUX("PC", "Linux"),
     PC_ANY("PC", "any");
 
     private final String family;

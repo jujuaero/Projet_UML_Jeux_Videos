@@ -9,14 +9,23 @@ COLLATE utf8mb4_unicode_ci;
 -- Utiliser la base de données
 USE CapeTownGaming;
 
+-- Table des employés
+CREATE TABLE IF NOT EXISTS employees (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Table des clients
 CREATE TABLE IF NOT EXISTS customers (
     id VARCHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     contact_number VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL DEFAULT '',
-    role VARCHAR(20) DEFAULT 'CUSTOMER',
-    credits INT NULL,
+    loyalty_points INT DEFAULT 0,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -62,6 +71,7 @@ CREATE TABLE IF NOT EXISTS sales (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Index pour améliorer les performances
+CREATE INDEX idx_employee_email ON employees(email);
 CREATE INDEX idx_customer_contact ON customers(contact_number);
 CREATE INDEX idx_game_platform ON games(platform, is_available);
 CREATE INDEX idx_rental_customer ON rentals(customer_id);
@@ -69,6 +79,10 @@ CREATE INDEX idx_rental_game ON rentals(game_id);
 CREATE INDEX idx_rental_active ON rentals(is_returned);
 CREATE INDEX idx_sale_customer ON sales(customer_id);
 CREATE INDEX idx_sale_game ON sales(game_id);
+
+-- Insertion d'un employé par défaut
+INSERT INTO employees (id, name, email, password) VALUES
+('emp-1', 'Admin User', 'admin@capetown.com', 'admin123');
 
 -- Insertion de quelques jeux de démonstration
 INSERT INTO games (id, title, genre, platform, is_available, type, price) VALUES

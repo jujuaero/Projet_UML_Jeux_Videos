@@ -8,16 +8,14 @@ public class Customer implements Serializable {
     private final String name;
     private final String contactNumber;
     private final String password;
-    private Role role;
-    private final Integer credits; // null for admin, >=0 for customer
+    private int loyaltyPoints;
 
     private Customer(Builder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.contactNumber = builder.contactNumber;
         this.password = builder.password;
-        this.role = builder.role != null ? builder.role : Role.CUSTOMER;
-        this.credits = builder.credits;
+        this.loyaltyPoints = builder.loyaltyPoints;
     }
 
     public String getId() { return id; }
@@ -25,38 +23,36 @@ public class Customer implements Serializable {
     public String getContactNumber() { return contactNumber; }
     public String getContact() { return contactNumber; }
     public String getPassword() { return password; }
+    public int getLoyaltyPoints() { return loyaltyPoints; }
+
+    public void addLoyaltyPoints(int points) {
+        this.loyaltyPoints += points;
+    }
+
+    public boolean useLoyaltyPoints(int points) {
+        if (this.loyaltyPoints >= points) {
+            this.loyaltyPoints -= points;
+            return true;
+        }
+        return false;
+    }
 
     public static class Builder {
         private String id;
         private String name;
         private String contactNumber;
         private String password;
-        private Role role;
-        private Integer credits;
+        private int loyaltyPoints = 0;
 
         public Builder setId(String id) { this.id = id; return this; }
         public Builder setName(String name) { this.name = name; return this; }
         public Builder setContactNumber(String contactNumber) { this.contactNumber = contactNumber; return this; }
         public Builder setPassword(String password) { this.password = password; return this; }
-        public Builder setRole(Role role) { this.role = role; return this; }
-        public Builder setCredits(Integer credits) { this.credits = credits; return this; }
+        public Builder setLoyaltyPoints(int loyaltyPoints) { this.loyaltyPoints = loyaltyPoints; return this; }
 
         public Customer build() { return new Customer(this); }
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public boolean isAdmin() {
-        return this.role == Role.ADMIN;
-    }
-
-    public Integer getCredits() { return credits; }
 
     @Override
     public boolean equals(Object o) {
