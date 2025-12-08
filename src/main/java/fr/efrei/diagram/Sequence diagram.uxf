@@ -1,0 +1,97 @@
+<diagram program="umletino" version="15.1"><zoom_level>9</zoom_level><element><id>UMLActor</id><coordinates><x>315</x><y>0</y><w>72</w><h>99</h></coordinates><panel_attributes>Employee</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>585</x><y>18</y><w>90</w><h>36</h></coordinates><panel_attributes>RentalService</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>621</x><y>45</y><w>27</w><h>1962</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;2160</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>81</y><w>27</w><h>1926</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;2120</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>621</x><y>72</y><w>18</w><h>1917</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>882</x><y>18</y><w>90</w><h>36</h></coordinates><panel_attributes>RentalDataBase
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1062</y><w>297</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Choose what
+he/she wants to do</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1161</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Phone number entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>918</x><y>45</y><w>27</w><h>1962</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;2160</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1125</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request a phone number</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1197</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Rquest a name</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>99</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Get in the rental service</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>135</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request mail</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>171</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Mail entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>UMLFrame</id><coordinates><x>207</x><y>243</y><w>954</w><h>756</h></coordinates><panel_attributes>Alternative
+--
+halign=left
+valign=top
+[if mail invalidvalid]
+
+fg=red
+
+
+
+
+
+
+
+
+--
+
+[else]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLFrame</id><coordinates><x>234</x><y>297</y><w>864</w><h>90</h></coordinates><panel_attributes>Loop
+--
+halign=left
+valign=top
+fg=blue
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>306</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request Mail</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>945</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Connected</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>351</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Mail entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>441</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request the password</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>477</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Password entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>UMLGeneric</id><coordinates><x>918</x><y>189</y><w>18</w><h>1800</h></coordinates><panel_attributes></panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLFrame</id><coordinates><x>234</x><y>585</y><w>828</w><h>279</h></coordinates><panel_attributes>Alternative
+--
+halign=left
+valign=top
+[if already
+in database]
+fg=green
+
+
+
+--
+[else]
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>639</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Connected</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>702</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Password invalid</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>UMLFrame</id><coordinates><x>207</x><y>1107</y><w>954</w><h>234</h></coordinates><panel_attributes>Alternative
+--
+halign=left
+valign=top
+[if "add a customer"
+is selected]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1233</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Name entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1260</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Set new customer</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1296</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Customer added</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>207</x><y>1341</y><w>954</w><h>648</h></coordinates><panel_attributes>halign=left
+valign=top
+[if "Select a customer"
+is selected]</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1359</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Shows all the customers</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>540</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Is password valid ?</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>603</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Yes it is</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>UMLFrame</id><coordinates><x>225</x><y>522</y><w>873</w><h>387</h></coordinates><panel_attributes>Loop
+--
+halign=left
+valign=top
+fg=blue
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>729</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request the password</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>792</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Password entered</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1395</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Selects one</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1440</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Shows all the possible actions</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1485</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Selects "Buy a game"</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1530</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request all video game consoles informations</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1575</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+video game consoles informations</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1602</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Shows all video game consoles informations</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1638</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Selects one</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1674</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request all games available</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1719</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Games available</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1746</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Shows all available games</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1800</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Selects one</panel_attributes><additional_attributes>310;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1836</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Request data base modifications</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>1890</y><w>306</w><h>45</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Data base modified
+(Credentials added, game availability, sales...)</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>Relation</id><coordinates><x>342</x><y>1935</y><w>297</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Purchase successful</panel_attributes><additional_attributes>10;20;310;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>207</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Is mail valid ?</panel_attributes><additional_attributes>320;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>252</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Mail invalid</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element><element><id>Relation</id><coordinates><x>630</x><y>414</y><w>306</w><h>36</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+Yes it is valid</panel_attributes><additional_attributes>10;20;320;20</additional_attributes></element></diagram>
